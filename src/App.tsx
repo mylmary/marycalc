@@ -34,8 +34,11 @@ function Calculator() {
   if(k==='='&&saved!==null&&op){const r=calc(saved,Number(value),op);setLine(saved+' '+op+' '+value+' =');setValue(clean(r));setSaved(null);setOp(null);setFresh(true);}
  };
  const keys=[['AC','soft'],['±','soft'],['%','soft'],['÷','operator'],['7',''],['8',''],['9',''],['×','operator'],['4',''],['5',''],['6',''],['−','operator'],['1',''],['2',''],['3',''],['+','operator'],['⌫','soft'],['0',''],['.',''],['=','equals']];
+ const liveExpression = saved !== null && op
+  ? `${fmt(saved)} ${op}${fresh ? '' : ' ' + value}`
+  : fmt(Number(value));
  return <section className="calculator-panel" aria-label="Calculator">
-  <div className="display-panel"><div className="expression">{line||' '}</div><div className="main-display">{fmt(Number(value))}</div></div>
+  <div className="display-panel"><div className="expression">{line||' '}</div><div className="main-display">{liveExpression}</div></div>
   <div className="keypad">{keys.map(([k,kind])=><button key={k} type="button" className={`calc-key ${kind}`} onClick={()=>press(k)} aria-label={k==='⌫'?'Delete last digit':k}>{k}</button>)}</div>
  </section>;
 }
